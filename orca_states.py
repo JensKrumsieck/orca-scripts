@@ -43,13 +43,13 @@ try:
         first = False
         for line in taken:
             if re.match("^STATE *\\d+.*(\\n.*)*", line):
-                if current is not "":
+                if current != "":
                     blocks.append(current)
                 current = line
                 first = True
             elif first:
                 current += line
-        if blocks.count is 0:
+        if blocks.count == 0:
             print("no state found")
             sys.exit(1)
         for block in blocks:
@@ -61,7 +61,7 @@ except IOError:
 ### END PARSING ###
 
 ### PROCESSING ###
-with open(args.filename + "_states.csv", "wb") as csvfile:
+with open(args.filename + "_states.csv", "w", newline="") as csvfile:
     cw = csv.writer(csvfile, delimiter=";")
     for state in states:
         cw.writerow(['STATE', 'FROM', 'TO', "%"])  # header row
