@@ -28,7 +28,6 @@ regex_block = "(^STATE *\d+.*)\n( *\d*[a,b] -> \d*[a,b][ ,:.]*\d*[,.]?\d* *\n)+"
 
 
 def parse_lines(lines: str):
-    print(lines)
     index = re.match(regex_state, lines).group(1)
     transitions = re.findall(regex_transitions, lines)
     return(index, transitions)
