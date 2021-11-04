@@ -19,15 +19,17 @@ block_start = "TD-DFT EXCITED STATES"
 block_end = "TD-DFT-EXCITATION SPECTRA"
 states = list()
 blocks = list()
+regex_transitions = "(\d*[a,b]) -> (\d*[a,b])[ ,:.]*(\d*[,.]?\d*)"
+regex_state = "^STATE *(\d+)"
+regex_block = "(^STATE *\d+.*)\n( *\d*[a,b] -> \d*[a,b][ ,:.]*\d*[,.]?\d* *\n)+"
 ### END VARIABLES ###
 
 ### PARSING ###
 
 
-def parse_lines(lines):
-    regex_transitions = "(\d*[a,b]) -> (\d*[a,b])[ ,:.]*(\d*[,.]?\d*)"
-    state = "^STATE *(\d+)"
-    index = re.match(state, lines).group(1)
+def parse_lines(lines: str):
+    print(lines)
+    index = re.match(regex_state, lines).group(1)
     transitions = re.findall(regex_transitions, lines)
     return(index, transitions)
 
@@ -40,21 +42,11 @@ try:
                           dropped)  # drop all after block_end
         # build blocks
         current = ""
-        first = False
-        for line in taken:
-            if re.match("^STATE *\\d+.*(\\n.*)*", line):
-                if current != "":
-                    blocks.append(current)
-                current = line
-                first = True
-            elif first:
-                current += line
-        if blocks.count == 0:
-            print("no state found")
-            sys.exit(1)
-        for block in blocks:
-            states.append(parse_lines(block))
-
+        for line in taken:     
+            current += line
+        blocks = re.finditer(regex_block, current, re.MULTILINE)
+        for no, block in enumerate(blocks):      
+            states.append(parse_lines(block.group()))
 except IOError:
     print("file not found at " + args.filename)
     sys.exit(1)  # exit with failure
