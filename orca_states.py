@@ -33,7 +33,6 @@ def parse_lines(lines: str):
     transitions = re.findall(regex_transitions, lines)
     return(index, transitions)
 
-
 try:
     with open(args.filename, 'r') as file:
         dropped = dropwhile(lambda x: block_start not in x,
