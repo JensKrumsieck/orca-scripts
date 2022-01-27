@@ -12,7 +12,7 @@ cp  $SLURM_SUBMIT_DIR/$file   /scratch/$USER/job_$SLURM_JOB_ID/ || exit 1
 
 #Module laden
 module load openmpi/4.1.1
-module load orca/5.0.0
+module load orca/5.0.2
 
 #Programm ausführen
 $ORCA_PATH/orca $file
