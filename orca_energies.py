@@ -62,8 +62,10 @@ for file in files:
                 enthalpy = re.match(regex, line)
             if "Gibbs Energy" in line:
                 gibbs = re.match(regex, line)
-        energies.append(EnergyInfo(os.path.basename(file),
+        try:
+            energies.append(EnergyInfo(os.path.basename(file),
                         electronic[1], inner[1], enthalpy[1], gibbs[1]))
+        except: print(f"{file} failed!")
 
 # to csv
 newfile = args.folder + "/energies.csv"
