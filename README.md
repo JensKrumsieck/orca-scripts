@@ -6,7 +6,7 @@ Parses the states of a ORCA 5.0 TD-DFT Calculation to as csv file
 
 use:
 ```Shell
-python orca_states.py FILE.out -t .15
+python orca_states.py FILE.out -t [THRESHOLD]
 ```
 Parameters
 * `FILE.out` > ORCA 5.0 output file
