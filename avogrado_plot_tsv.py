@@ -1,4 +1,5 @@
 import argparse
+import os
 from matplotlib import pyplot as plt
 import pandas as pd
 from util.settings import applySettings, colors, applyAxisSettings
@@ -28,7 +29,11 @@ hasLabels = labels != None
 normalize = not args.nonorm
 df = pd.DataFrame()
 for file in paths:
-    df = pd.concat([df, (pd.read_csv(file, header=1, usecols=[0, 1], encoding='latin-1', sep="\t"))], axis=1)
+    filename, file_extension = os.path.splitext(file)
+    if(file_extension == ".tsv"):
+        df = pd.concat([df, (pd.read_csv(file, header=1, usecols=[0, 1], encoding='latin-1', sep="\t"))], axis=1)
+    if(file_extension == ".csv"):
+        df = pd.concat([df, (pd.read_csv(file, header=1, usecols=[0, 1], encoding='latin-1'))], axis=1)
 
 num_spc = int(df.shape[1])
 gmax = 0  # global max
